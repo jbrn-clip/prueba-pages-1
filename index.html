@@ -1,5 +1,406 @@
-<html>
-    <body>
-        <h1>Soy una prueba de pages!</h1>
-    </body>
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: GitHub Copilot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+            }
+        }
+        .plotly-chart-container {
+            position: relative;
+            width: 100%;
+            height: 450px;
+        }
+        @media (min-width: 768px) {
+            .plotly-chart-container {
+                height: 600px;
+            }
+        }
+        .text-main { color: #0f172a; }
+        .text-accent { color: #4A90E2; }
+        .bg-accent { background-color: #4A90E2; }
+        .border-accent { border-color: #4A90E2; }
+        .text-secondary-accent { color: #50E3C2; }
+        .bg-secondary-accent { background-color: #50E3C2; }
+        .text-tertiary-accent { color: #F5A623; }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 1.25rem;
+            top: 1rem;
+            bottom: 1rem;
+            width: 2px;
+            background-color: #e2e8f0;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="text-main">
+    <div class="container mx-auto px-4 py-16">
+
+        <header class="text-center max-w-4xl mx-auto mb-20">
+            <h1 class="text-4xl md:text-5xl font-black tracking-tighter mb-4">GitHub Copilot</h1>
+            <p class="text-lg md:text-xl text-slate-600">Un análisis visual sobre por qué Copilot no es solo una herramienta, sino una inversión estratégica para potenciar nuestro desarrollo.</p>
+        </header>
+
+        <section class="mb-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold tracking-tight">El Objetivo: Un Impulso Cuantificable</h2>
+                <p class="mt-3 text-lg text-slate-600 max-w-2xl mx-auto">La decisión de adoptar una nueva herramienta debe estar respaldada por un objetivo de negocio claro. Buscamos un impacto directo en la eficiencia y la velocidad de entrega.</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-lg p-10 text-center max-w-3xl mx-auto">
+                <p class="text-lg text-slate-500">Aumento de Productividad Proyectado</p>
+                <p class="text-7xl md:text-8xl font-black text-accent my-2">15-20%</p>
+                <p class="text-md text-slate-600">Al reducir tareas repetitivas, acelerar la codificación y mejorar la calidad del código, liberamos el potencial de nuestros desarrolladores para que se centren en la innovación.</p>
+            </div>
+        </section>
+
+        <section class="mb-24">
+             <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold tracking-tight">Por Qué GitHub Copilot se Desmarca</h2>
+                <p class="mt-3 text-lg text-slate-600 max-w-2xl mx-auto">Más allá de la popularidad, tres pilares fundamentales posicionan a Copilot como la elección superior en el mercado actual de asistentes de IA.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-2xl shadow-lg p-6 border-t-4 border-accent">
+                    <h3 class="text-xl font-bold mb-3">Liderazgo y Madurez</h3>
+                    <p class="text-slate-600">Es la herramienta con mayor adopción a nivel mundial. Esto garantiza un desarrollo continuo, una comunidad activa y una integración robusta y probada en flujos de trabajo reales.</p>
+                </div>
+                <div class="bg-white rounded-2xl shadow-lg p-6 border-t-4 border-accent">
+                    <h3 class="text-xl font-bold mb-3">Capacidades de "Agente"</h3>
+                    <p class="text-slate-600">Copilot Chat transforma el IDE en un entorno conversacional. Su habilidad para entender el contexto, generar pruebas y depurar código complejo va mucho más allá de la simple sugerencia de código.</p>
+                </div>
+                <div class="bg-white rounded-2xl shadow-lg p-6 border-t-4 border-accent">
+                    <h3 class="text-xl font-bold mb-3">Ecosistema de Integración</h3>
+                    <p class="text-slate-600">Posee el soporte más amplio y nativo para los IDEs más utilizados (VS Code, JetBrains), asegurando una curva de adopción mínima y una experiencia de usuario fluida para todo el equipo.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-24">
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h3 class="text-2xl font-bold text-center mb-4">Comparativa de Capacidades</h3>
+                <p class="text-slate-600 text-center mb-6">Este gráfico de radar visualiza el rendimiento de las principales herramientas en áreas clave. Copilot destaca por su perfil equilibrado y su dominio en las capacidades conversacionales que lo definen como un verdadero "agente".</p>
+                <div class="chart-container">
+                    <canvas id="capabilitiesChart"></canvas>
+                </div>
+            </div>
+            <div class="max-w-md mx-auto">
+                 <h3 class="text-4xl font-black leading-tight text-accent mb-4">Un Perfil Equilibrado y Potente</h3>
+                 <p class="text-lg text-slate-600">Mientras otros competidores pueden sobresalir en un nicho específico como la personalización (Tabnine) o el contexto del codebase (Cody), GitHub Copilot ofrece la combinación más sólida y completa de capacidades críticas, especialmente en la interacción conversacional y la asistencia en depuración, que son las tareas que más tiempo consumen.</p>
+            </div>
+        </section>
+
+        <section class="mb-24">
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold tracking-tight">Posicionamiento en el Mercado: El Cuadrante de Líderes</h2>
+                    <p class="mt-3 text-lg text-slate-600 max-w-3xl mx-auto">Este análisis visualiza el panorama competitivo. El eje horizontal representa la visión y las capacidades de "agente", mientras que el eje vertical mide la madurez y la capacidad de ejecución en el mercado. El tamaño de la burbuja indica la adopción relativa.</p>
+                </div>
+                <div class="plotly-chart-container">
+                    <div id="marketQuadrantChart" class="w-full h-full"></div>
+                </div>
+                <p class="text-center text-slate-600 mt-4">El gráfico posiciona claramente a GitHub Copilot en el cuadrante de "Líderes", con una alta capacidad de ejecución y una visión completa como agente de IA, superando a sus competidores en la combinación de estos factores críticos.</p>
+            </div>
+        </section>
+        
+        <section class="mb-24">
+             <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold tracking-tight">Plan de Acción: Nuestra Hoja de Ruta</h2>
+                <p class="mt-3 text-lg text-slate-600 max-w-2xl mx-auto">Proponemos avanzar con un plan por fases para asegurar una adopción exitosa y que demuestre valor en cada etapa, enfocando el piloto en validar a Copilot.</p>
+            </div>
+            <div class="relative max-w-3xl mx-auto timeline">
+                <div class="relative pl-14 pb-12">
+                    <div class="absolute left-0 top-0 flex items-center justify-center w-10 h-10 rounded-full bg-accent text-white font-bold text-lg z-10">1</div>
+                    <div class="bg-white rounded-lg p-4 shadow-md">
+                        <h4 class="font-bold text-lg mb-1">Fase 1: Prueba de Concepto (PoC)</h4>
+                        <p class="text-slate-600">Validar a Copilot con un equipo piloto durante 4 semanas, midiendo métricas de productividad y satisfacción.</p>
+                    </div>
+                </div>
+                <div class="relative pl-14 pb-12">
+                    <div class="absolute left-0 top-0 flex items-center justify-center w-10 h-10 rounded-full bg-accent text-white font-bold text-lg z-10">2</div>
+                    <div class="bg-white rounded-lg p-4 shadow-md">
+                        <h4 class="font-bold text-lg mb-1">Fase 2: Decisión y Adquisición</h4>
+                        <p class="text-slate-600">Presentar resultados y caso de negocio para la aprobación final del presupuesto y la adquisición de licencias.</p>
+                    </div>
+                </div>
+                <div class="relative pl-14 pb-12">
+                     <div class="absolute left-0 top-0 flex items-center justify-center w-10 h-10 rounded-full bg-accent text-white font-bold text-lg z-10">3</div>
+                     <div class="bg-white rounded-lg p-4 shadow-md">
+                        <h4 class="font-bold text-lg mb-1">Fase 3: Despliegue y Formación</h4>
+                        <p class="text-slate-600">Implementar la herramienta para todo el equipo de desarrollo, acompañado de sesiones de formación y buenas prácticas.</p>
+                    </div>
+                </div>
+                 <div class="relative pl-14">
+                     <div class="absolute left-0 top-0 flex items-center justify-center w-10 h-10 rounded-full bg-accent text-white font-bold text-lg z-10">4</div>
+                    <div class="bg-white rounded-lg p-4 shadow-md">
+                        <h4 class="font-bold text-lg mb-1">Fase 4: Medición y Optimización</h4>
+                        <p class="text-slate-600">Monitorizar de forma continua los KPIs definidos para asegurar y maximizar el retorno de la inversión.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center pt-12 mt-12 border-t border-slate-200">
+             <h2 class="text-2xl font-bold mb-2">Una Inversión Estratégica, no un Gasto</h2>
+             <p class="text-slate-600 max-w-3xl mx-auto">La adopción de GitHub Copilot trasciende la simple mejora de herramientas. Es una inversión estratégica en la productividad, calidad y satisfacción de nuestro equipo, posicionándonos a la vanguardia del desarrollo de software moderno.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        function wrapLabel(label, maxLength = 16) {
+            if (label.length <= maxLength) {
+                return label;
+            }
+            const words = label.split(' ');
+            let currentLine = '';
+            const lines = [];
+            for (const word of words) {
+                if ((currentLine + ' ' + word).trim().length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            }
+            if (currentLine) {
+                lines.push(currentLine.trim());
+            }
+            return lines;
+        }
+
+        const tooltipConfig = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                              return label.join(' ');
+                            }
+                            return label;
+                        }
+                    }
+                }
+            }
+        };
+
+        const capabilitiesCtx = document.getElementById('capabilitiesChart').getContext('2d');
+        const capabilitiesChart = new Chart(capabilitiesCtx, {
+            type: 'radar',
+            data: {
+                labels: [
+                    wrapLabel('Autocompletado'), 
+                    wrapLabel('Chat y Depuración'), 
+                    wrapLabel('Seguridad Integrada'), 
+                    wrapLabel('Personalización'), 
+                    wrapLabel('Contexto del Codebase Completo')
+                ],
+                datasets: [{
+                    label: 'GitHub Copilot',
+                    data: [9, 9, 6, 7, 8],
+                    backgroundColor: 'rgba(74, 144, 226, 0.2)',
+                    borderColor: '#4A90E2',
+                    pointBackgroundColor: '#4A90E2',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#4A90E2',
+                    borderWidth: 2
+                }, {
+                    label: 'Tabnine',
+                    data: [8, 4, 7, 10, 7],
+                    backgroundColor: 'rgba(245, 166, 35, 0.2)',
+                    borderColor: '#F5A623',
+                    pointBackgroundColor: '#F5A623',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#F5A623',
+                    borderWidth: 2
+                }, {
+                    label: 'Sourcegraph Cody',
+                    data: [7, 8, 5, 6, 10],
+                    backgroundColor: 'rgba(80, 227, 194, 0.2)',
+                    borderColor: '#50E3C2',
+                    pointBackgroundColor: '#50E3C2',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#50E3C2',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                ...tooltipConfig,
+                scales: {
+                    r: {
+                        angleLines: { color: '#e2e8f0' },
+                        grid: { color: '#e2e8f0' },
+                        pointLabels: {
+                            font: { size: 12, weight: 'bold' },
+                            color: '#475569'
+                        },
+                        ticks: {
+                            color: '#64748b',
+                            backdropColor: 'transparent',
+                            stepSize: 2
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 10
+                    }
+                },
+                 plugins: {
+                    ...tooltipConfig.plugins,
+                    legend: {
+                        position: 'top',
+                    }
+                }
+            }
+        });
+
+        const marketQuadrantData = [{
+            x: [8.5],
+            y: [9],
+            text: ['GitHub Copilot'],
+            mode: 'markers+text',
+            type: 'scattergl',
+            name: 'GitHub Copilot',
+            textposition: 'top center',
+            textfont: {
+                family: 'Inter, sans-serif',
+                size: 14,
+                color: '#0f172a',
+                weight: 'bold'
+            },
+            marker: { 
+                size: [90],
+                color: '#4A90E2',
+                sizemode: 'area',
+                sizemin: 4
+            }
+        }, {
+            x: [8],
+            y: [6],
+            text: ['Tabnine'],
+            mode: 'markers+text',
+            type: 'scattergl',
+            name: 'Tabnine',
+            textposition: 'top center',
+            textfont: {
+                family: 'Inter, sans-serif'
+            },
+            marker: { 
+                size: [50],
+                color: '#F5A623',
+                sizemode: 'area'
+            }
+        }, {
+            x: [9],
+            y: [5],
+            text: ['Sourcegraph Cody'],
+            mode: 'markers+text',
+            type: 'scattergl',
+            name: 'Sourcegraph Cody',
+            textposition: 'top center',
+            textfont: {
+                family: 'Inter, sans-serif'
+            },
+            marker: { 
+                size: [30],
+                color: '#50E3C2',
+                sizemode: 'area'
+            }
+        }, {
+            x: [6],
+            y: [8],
+            text: ['AWS CodeWhisperer'],
+            mode: 'markers+text',
+            type: 'scattergl',
+            name: 'AWS CodeWhisperer',
+            textposition: 'top center',
+            textfont: {
+                family: 'Inter, sans-serif'
+            },
+            marker: { 
+                size: [60],
+                color: '#B8E986',
+                sizemode: 'area'
+            }
+        }];
+
+        const layout = {
+            xaxis: {
+                title: '<b>Visión y Capacidades de Agente →</b>',
+                range: [4, 10],
+                showgrid: true,
+                zeroline: false,
+                gridcolor: '#e2e8f0',
+            },
+            yaxis: {
+                title: '<b>Capacidad de Ejecución y Madurez →</b>',
+                range: [4, 10],
+                showgrid: true,
+                zeroline: false,
+                gridcolor: '#e2e8f0'
+            },
+            shapes: [
+                {
+                    type: 'line',
+                    x0: 7, x1: 7, y0: 4, y1: 10,
+                    line: { color: '#cbd5e1', width: 2, dash: 'dot' }
+                },
+                {
+                    type: 'line',
+                    x0: 4, x1: 10, y0: 7, y1: 7,
+                    line: { color: '#cbd5e1', width: 2, dash: 'dot' }
+                }
+            ],
+            annotations: [
+                { x: 4.2, y: 9.8, text: '<b>Retadores</b>', showarrow: false, xanchor: 'left', font: {color: '#94a3b8'} },
+                { x: 9.8, y: 9.8, text: '<b>Líderes</b>', showarrow: false, xanchor: 'right', font: {color: '#94a3b8'} },
+                { x: 4.2, y: 4.2, text: '<b>Jugadores de Nicho</b>', showarrow: false, xanchor: 'left', font: {color: '#94a3b8'} },
+                { x: 9.8, y: 4.2, text: '<b>Visionarios</b>', showarrow: false, xanchor: 'right', font: {color: '#94a3b8'} }
+            ],
+            showlegend: false,
+            autosize: true,
+            margin: { l: 80, r: 40, b: 60, t: 20 },
+            font: {
+                family: 'Inter, sans-serif'
+            }
+        };
+
+        const config = {
+            responsive: true,
+            displayModeBar: false
+        }
+        
+        Plotly.newPlot('marketQuadrantChart', marketQuadrantData, layout, config);
+        
+        window.onresize = function() {
+            Plotly.Plots.resize('marketQuadrantChart');
+        };
+
+    </script>
+</body>
 </html>
